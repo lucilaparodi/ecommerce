@@ -4,12 +4,11 @@ import Header from "../components/Header";
 import CardCategory from "../components/CardCategory";
 import Categories from "../components/Categories";
 
-const Home = ({ selectedCategoryState }) => {
+const Home = ({ navigation }) => {
   return (
-    <View>
-      <Header title="Home" />
-      <Categories selectedCategoryState={selectedCategoryState} />
-    </View>
+    <>
+      <Categories navigation={navigation} />
+    </>
   );
 };
 

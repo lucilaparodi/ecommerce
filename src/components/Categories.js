@@ -4,11 +4,11 @@ import categories from "../utils/data/categories.json";
 import CardCategory from "./CardCategory";
 import colors from "../utils/globals/colors";
 
-const Categories = ({ selectedCategoryState }) => {
+const Categories = ({ navigation }) => {
   const renderCardCategory = ({ item }) => (
     <CardCategory
+      navigation={navigation}
       style={styles.card}
-      selectedCategoryState={selectedCategoryState}
       item={item}
     ></CardCategory>
   );

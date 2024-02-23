@@ -6,7 +6,8 @@ import Header from "../components/Header";
 import Search from "../components/Search";
 import colors from "../utils/globals/colors";
 
-const ByCategories = ({ categorySelected }) => {
+const ByCategories = ({ route, navigation }) => {
+  const { categorySelected } = route.params;
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [keyword, setKeyword] = useState("");
 
@@ -29,15 +30,18 @@ const ByCategories = ({ categorySelected }) => {
   }, [categorySelected, keyword]);
 
   return (
-    <View style={styles.container}>
-      <Header title={categorySelected || "Productos"}></Header>
+    <>
+      {/* // <View style={styles.container}> */}
       <Search handlerKeyword={handlerKeyword}></Search>
       <FlatList
         data={productsFiltered}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Product item={item}></Product>}
+        renderItem={({ item }) => (
+          <Product navigation={navigation} item={item}></Product>
+        )}
       ></FlatList>
-    </View>
+      {/* </View> */}
+    </>
   );
 };
 

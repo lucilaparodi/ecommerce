@@ -1,20 +1,35 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  useWindowDimensions,
+  Pressable,
+} from "react-native";
 import React from "react";
 import colors from "../utils/globals/colors.js";
 import fonts from "../utils/globals/fonts.js";
 
-const Product = ({ item }) => {
+const Product = ({ item, navigation }) => {
+  const dimensios = useWindowDimensions();
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.price}>${item.price}</Text>
-        <View>
-          <Text style={styles.description}>{item.description}</Text>
+    <>
+      <Pressable
+        onPress={() =>
+          navigation.navigate("ProductDetail", { productId: item.id })
+        }
+        style={styles.container}
+      >
+        <Image style={styles.image} source={{ uri: item.thumbnail }}></Image>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.price}>${item.price}</Text>
+          <View>
+            <Text style={styles.description}>{item.description}</Text>
+          </View>
         </View>
-      </View>
-    </View>
+      </Pressable>
+    </>
   );
 };
 
@@ -26,23 +41,25 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     width: "80%",
     marginHorizontal: "10%",
-    padding: 10,
     marginVertical: 10,
     borderRadius: 5,
     alignItems: "center",
     gap: 20,
   },
   image: {
-    width: 280,
-    height: 280,
+    width: "100%",
+    minWidth: 280,
+    minHeight: 280,
     borderRadius: 5,
   },
   text: {
+    padding: 10,
     width: "60%",
     fontSize: 16,
     fontFamily: fonts.PoppinsR,
   },
   textContainer: {
+    padding: 10,
     alignItems: "flex-start",
     justifyContent: "flex-start",
     width: "100%",

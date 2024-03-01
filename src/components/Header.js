@@ -9,7 +9,7 @@ const Header = ({ title = "Ecommerce", navigation }) => {
     <View style={styles.container}>
       {navigation.canGoBack() && (
         <Pressable style={styles.goBack} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={30} color="black"></Ionicons>
+          <Ionicons name="arrow-back" size={30} color={colors.pink}></Ionicons>
         </Pressable>
       )}
       <Text style={styles.text}>{title}</Text>

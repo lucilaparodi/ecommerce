@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import products from "../utils/data/products.json";
 import Header from "../components/Header";
 import colors from "../utils/globals/colors";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "../features/cart/cartSlice";
 
 const ProductDetail = ({ route }) => {
+  const dispatch = useDispatch();
   const { productId } = route.params;
   const [product, setProduct] = useState({});
 
@@ -29,7 +32,12 @@ const ProductDetail = ({ route }) => {
       <View style={styles.containerPrice}>
         <Text style={styles.price}>${product.price}</Text>
         <Pressable style={styles.buyNow}>
-          <Text style={styles.buyNoeText}>But now</Text>
+          <Text
+            style={styles.buyNoeText}
+            onPress={() => dispatch(addCartItem(product))}
+          >
+            Carrito
+          </Text>
         </Pressable>
       </View>
     </View>
@@ -56,8 +64,8 @@ const styles = StyleSheet.create({
     marginVertical: 15,
   },
   image: {
-    width: "100%",
-    height: 300,
+    width: "30%",
+    height: 100,
   },
   conainerText: {
     gap: 25,
@@ -85,6 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   buyNoeText: {
-    color: "white",
+    color: colors.pink,
   },
 });

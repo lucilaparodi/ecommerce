@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
-import products from "../utils/data/products.json";
+import { useGetProductDetailQuery } from "../app/services/shop";
 import Header from "../components/Header";
 import colors from "../utils/globals/colors";
 import { useDispatch } from "react-redux";
@@ -9,12 +9,13 @@ import { addCartItem } from "../features/cart/cartSlice";
 const ProductDetail = ({ route }) => {
   const dispatch = useDispatch();
   const { productId } = route.params;
-  const [product, setProduct] = useState({});
-
-  useEffect(() => {
-    const productFinded = products.find((product) => product.id === productId);
-    setProduct(productFinded);
-  }, [productId]);
+  const { data: product, isLoading } = useGetProductDetailQuery(productId);
+  if (isLoading)
+    return (
+      <View>
+        <Text>Cargando</Text>
+      </View>
+    );
 
   return (
     <View style={styles.container}>
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     width: "30%",
     height: 100,
   },
-  conainerText: {
+  containerText: {
     gap: 25,
     paddingHorizontal: 5,
     paddingVertical: 25,

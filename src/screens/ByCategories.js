@@ -1,33 +1,45 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
-import products from "../utils/data/products.json";
+import { useGetProductsByCategoryQuery } from "../app/services/shop";
 import Product from "../components/Product";
-import Header from "../components/Header";
 import Search from "../components/Search";
 import colors from "../utils/globals/colors";
 
 const ByCategories = ({ route, navigation }) => {
   const { categorySelected } = route.params;
+  const {
+    data: products,
+    isError,
+    isLoading,
+    error,
+    isSuccess,
+  } = useGetProductsByCategoryQuery(categorySelected);
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [keyword, setKeyword] = useState("");
+
+  console.log(products);
 
   const handlerKeyword = (k) => {
     setKeyword(k);
   };
   useEffect(() => {
-    if (categorySelected)
-      setProductsFiltered(
-        products.filter((product) => product.category === categorySelected)
-      );
+    setProductsFiltered(products);
     if (keyword)
       setProductsFiltered(
-        productsFiltered.filter((product) => {
+        products.filter((product) => {
           const productTitleLower = product.title.toLowerCase();
           const keywordLower = keyword.toLowerCase();
           return productTitleLower.includes(keywordLower);
         })
       );
-  }, [categorySelected, keyword]);
+  }, [categorySelected, keyword, products]);
+
+  if (isLoading)
+    return (
+      <View>
+        <Text style={styles.text}>Cargando</Text>
+      </View>
+    );
 
   return (
     <>
@@ -52,5 +64,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.grey,
     justifyContent: "center",
     alignItems: "center",
+  },
+  text: {
+    color: "black",
+    fontSize: 50,
   },
 });

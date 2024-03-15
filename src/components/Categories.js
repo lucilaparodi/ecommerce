@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import React from "react";
-import categories from "../utils/data/categories.json";
 import CardCategory from "./CardCategory";
 import colors from "../utils/globals/colors";
+import { useGetCategoriesQuery } from "../app/services/shop";
 
 const Categories = ({ navigation }) => {
+  const { data: categories, isLoading } = useGetCategoriesQuery();
+
   const renderCardCategory = ({ item }) => (
     <CardCategory
       navigation={navigation}
@@ -12,6 +14,13 @@ const Categories = ({ navigation }) => {
       item={item}
     ></CardCategory>
   );
+
+  if (isLoading)
+    return (
+      <View style={styles.cont2}>
+        <Text style={styles.text}>Cargando</Text>
+      </View>
+    );
 
   return (
     <FlatList
@@ -32,5 +41,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.grey,
+  },
+  text: {
+    color: "black",
+    fontSize: 50,
+  },
+  cont2: {
+    flex: 1,
   },
 });
